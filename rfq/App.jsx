@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import Topbar from "./components/Topbar";
 import Post from "./components/Post";
 import TableView from "./components/TableView";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
+
 import "./app.css";
 
 export default function App() {
-  const [view, setView] = useState(() => localStorage.getItem('postView') || 'grid');
+  const [view, setView] = useState(
+    () => localStorage.getItem("postView") || "grid"
+  );
   const [posts, setPosts] = useState([
     {
       order: "OD-250115-001",
@@ -16,7 +19,7 @@ export default function App() {
       products: 3,
       customers: 10,
       orders: 14,
-      user: "Mikel"
+      user: "Mikel",
     },
     {
       order: "OD-250115-002",
@@ -26,7 +29,7 @@ export default function App() {
       products: 16,
       customers: 34,
       orders: 120,
-      user: "James"
+      user: "James",
     },
     {
       order: "OD-250116-005",
@@ -36,7 +39,7 @@ export default function App() {
       products: 98,
       customers: 480,
       orders: 1845,
-      user: "Mark"
+      user: "Mark",
     },
     {
       order: "OD-250117-010",
@@ -46,7 +49,7 @@ export default function App() {
       products: 25,
       customers: 67,
       orders: 89,
-      user: "Sarah"
+      user: "Sarah",
     },
     {
       order: "OD-250118-015",
@@ -56,7 +59,7 @@ export default function App() {
       products: 42,
       customers: 123,
       orders: 156,
-      user: "Emma"
+      user: "Emma",
     },
     {
       order: "OD-250119-020",
@@ -66,7 +69,7 @@ export default function App() {
       products: 78,
       customers: 234,
       orders: 312,
-      user: "Alex"
+      user: "Alex",
     },
     {
       order: "OD-250120-025",
@@ -76,7 +79,7 @@ export default function App() {
       products: 15,
       customers: 45,
       orders: 67,
-      user: "Lisa"
+      user: "Lisa",
     },
     {
       order: "OD-250121-030",
@@ -86,7 +89,7 @@ export default function App() {
       products: 89,
       customers: 345,
       orders: 456,
-      user: "Tom"
+      user: "Tom",
     },
     {
       order: "OD-250122-035",
@@ -96,7 +99,7 @@ export default function App() {
       products: 34,
       customers: 78,
       orders: 98,
-      user: "Mike"
+      user: "Mike",
     },
     {
       order: "OD-250123-040",
@@ -106,7 +109,7 @@ export default function App() {
       products: 56,
       customers: 167,
       orders: 203,
-      user: "Anna"
+      user: "Anna",
     },
     {
       order: "OD-250124-045",
@@ -116,7 +119,7 @@ export default function App() {
       products: 67,
       customers: 289,
       orders: 378,
-      user: "David"
+      user: "David",
     },
     {
       order: "OD-250125-050",
@@ -126,7 +129,7 @@ export default function App() {
       products: 23,
       customers: 56,
       orders: 78,
-      user: "Sophia"
+      user: "Sophia",
     },
     {
       order: "OD-250126-055",
@@ -136,7 +139,7 @@ export default function App() {
       products: 45,
       customers: 134,
       orders: 167,
-      user: "Ryan"
+      user: "Ryan",
     },
     {
       order: "OD-250127-060",
@@ -146,7 +149,7 @@ export default function App() {
       products: 38,
       customers: 98,
       orders: 124,
-      user: "Olivia"
+      user: "Olivia",
     },
     {
       order: "OD-250128-065",
@@ -156,7 +159,7 @@ export default function App() {
       products: 29,
       customers: 76,
       orders: 95,
-      user: "Jake"
+      user: "Jake",
     },
     {
       order: "OD-250129-070",
@@ -166,7 +169,7 @@ export default function App() {
       products: 52,
       customers: 145,
       orders: 189,
-      user: "Mia"
+      user: "Mia",
     },
     {
       order: "OD-250130-075",
@@ -176,7 +179,7 @@ export default function App() {
       products: 61,
       customers: 203,
       orders: 267,
-      user: "Ethan"
+      user: "Ethan",
     },
     {
       order: "OD-250131-080",
@@ -186,7 +189,7 @@ export default function App() {
       products: 74,
       customers: 256,
       orders: 334,
-      user: "Zoe"
+      user: "Zoe",
     },
     {
       order: "OD-250201-085",
@@ -196,7 +199,7 @@ export default function App() {
       products: 31,
       customers: 89,
       orders: 112,
-      user: "Lucas"
+      user: "Lucas",
     },
     {
       order: "OD-250202-090",
@@ -206,17 +209,80 @@ export default function App() {
       products: 47,
       customers: 123,
       orders: 156,
-      user: "Ava"
-    }
+      user: "Ava",
+    },
+  ]);
+
+  const [posts1, setPosts1] = useState([
+    {
+      order: "OD-250115-001",
+      time: "2 hrs ago",
+      shop: "We Fashion Shop",
+      content: "T-Shirt, black, red, purple, v cuff, short and long ....",
+      products: 3,
+      customers: 10,
+      orders: 14,
+      user: "Mikel",
+    },
+    {
+      order: "OD-250115-002",
+      time: "5 hrs ago",
+      shop: "We Fashion Shop",
+      content: "Jeans Gabardin, Formal, Suite...",
+      products: 16,
+      customers: 34,
+      orders: 120,
+      user: "James",
+    },
   ]);
 
   useEffect(() => {
-    localStorage.setItem('postView', view);
+    localStorage.setItem("postView", view);
   }, [view]);
 
   const handleViewChange = (newView) => {
     setView(newView);
   };
+
+  // Generate weekly options for the last 5 weeks
+  const generateWeeklyOptions = () => {
+    const options = [];
+    const now = new Date();
+    for (let i = 0; i < 5; i++) {
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - (now.getDay() + 7 * i));
+      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 1); // Monday
+
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6); // Sunday
+
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const startDay = startOfWeek.getDate();
+      const endDay = endOfWeek.getDate();
+      const month = monthNames[startOfWeek.getMonth()];
+
+      const label = `${startDay.toString().padStart(2, "0")}-${endDay
+        .toString()
+        .padStart(2, "0")} ${month}`;
+      options.push({ label, value: i });
+    }
+    return options;
+  };
+
+  const weeklyOptions = generateWeeklyOptions();
 
   return (
     <div className="app-container">
@@ -230,26 +296,35 @@ export default function App() {
               <i className="pi pi-search"></i>
               <input type="text" placeholder="Search posts..." />
             </div>
+            <div className="timeline-filter">
+              {weeklyOptions.map((option, index) => (
+                <Button
+                  key={index}
+                  className="timeline-button"
+                  onClick={() => {}}
+                  label={option.label}
+                />
+              ))}
+            </div>
             <div className="view-buttons">
               <Button
                 icon="pi pi-th-large"
-                className={`p-button-text ${view === 'grid' ? 'active' : ''}`}
-                onClick={() => handleViewChange('grid')}
+                className={`p-button-text ${view === "grid" ? "active" : ""}`}
+                onClick={() => handleViewChange("grid")}
               />
               <Button
                 icon="pi pi-list"
-                className={`p-button-text ${view === 'feed' ? 'active' : ''}`}
-                onClick={() => handleViewChange('feed')}
+                className={`p-button-text ${view === "feed" ? "active" : ""}`}
+                onClick={() => handleViewChange("feed")}
               />
               <Button
                 icon="pi pi-table"
-                className={`p-button-text ${view === 'table' ? 'active' : ''}`}
-                onClick={() => handleViewChange('table')}
+                className={`p-button-text ${view === "table" ? "active" : ""}`}
+                onClick={() => handleViewChange("table")}
               />
             </div>
           </div>
-
-          {view === 'table' ? (
+          {view === "table" ? (
             <TableView posts={posts} />
           ) : (
             <div className={`posts-container ${view}`}>

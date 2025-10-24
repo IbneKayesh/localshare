@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { Tooltip } from "primereact/tooltip";
+import { OverlayPanel } from "primereact/overlaypanel";
 
 export default function Topbar() {
+  const menuRef = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="topbar">
       {/* Left: App Title */}
       <div className="topbar-left">
-        <div className="logo">OM</div>
+        <div className="logo">Quotation</div>
       </div>
 
       {/* Middle: Navigation Buttons */}
@@ -80,6 +84,90 @@ export default function Topbar() {
           tooltip="Vendors"
           tooltipOptions={{ position: "bottom" }}
         />
+
+        {/* Mobile Menu Button */}
+        <Button
+          icon="pi pi-bars"
+          className="p-button-text nav-btn mobile-menu-btn"
+          onClick={(e) => {
+            menuRef.current.toggle(e);
+            setIsMenuOpen(!isMenuOpen);
+          }}
+          tooltip="More"
+          tooltipOptions={{ position: "bottom" }}
+        />
+
+        {/* Mobile Floating Menu */}
+        <OverlayPanel ref={menuRef} className="mobile-menu-panel" onShow={() => setIsMenuOpen(true)} onHide={() => setIsMenuOpen(false)}>
+          <div className="mobile-menu-content">
+            <Button
+              icon="pi pi-chart-bar"
+              label="Dashboard"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-plus"
+              label="Create"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-pencil"
+              label="Draft"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-wifi"
+              label="Live"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-lock"
+              label="Locked"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-check-circle"
+              label="Approval"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-hammer"
+              label="Ready"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-receipt"
+              label="PO"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-truck"
+              label="Delivery"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-search"
+              label="Search"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+            <Button
+              icon="pi pi-users"
+              label="Vendors"
+              className="p-button-text mobile-menu-item"
+              onClick={() => menuRef.current.hide()}
+            />
+          </div>
+        </OverlayPanel>
       </div>
 
       {/* Right: User Profile */}
