@@ -1,0 +1,11 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* App Container */
+.app-container {
+  background: linear-gradient(135deg, #e3f2fd 0%, #fce4ec 100%);
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
