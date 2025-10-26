@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "primereact/button";
 import Navbar from "./components/Navbar";
 import Topbar from "./components/Topbar";
@@ -241,6 +241,7 @@ export default function App() {
   const [posts1, setPosts1] = useState(samplePosts1);
   const [expandedFilter, setExpandedFilter] = useState(false);
   const [visibility, setVisibility] = useState('public');
+  const timelineRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("postView", view);
@@ -250,11 +251,21 @@ export default function App() {
     setView(newView);
   };
 
+  const scrollTimeline = (direction) => {
+    if (timelineRef.current) {
+      const scrollAmount = 200; // Adjust as needed
+      timelineRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   // Generate weekly options for the last 5 weeks
   const generateWeeklyOptions = () => {
     const options = [];
     const now = new Date();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 25; i++) {
       const startOfWeek = new Date(now);
       startOfWeek.setDate(now.getDate() - (now.getDay() + 7 * i));
       startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 1); // Monday
@@ -308,14 +319,26 @@ export default function App() {
               <input type="text" placeholder="Search Quotations..." />
             </div>
             <div className={`timeline-filter ${!expandedFilter ? 'hidden' : ''}`}>
-              {weeklyOptions.map((option, index) => (
-                <Button
-                  key={index}
-                  className="timeline-button"
-                  onClick={() => {}}
-                  label={option.label}
-                />
-              ))}
+              <Button
+                icon="pi pi-chevron-left"
+                className="p-button-text scroll-button"
+                onClick={() => scrollTimeline('left')}
+              />
+              <div className="timeline-buttons" ref={timelineRef}>
+                {weeklyOptions.map((option, index) => (
+                  <Button
+                    key={index}
+                    className="timeline-button"
+                    onClick={() => {}}
+                    label={option.label}
+                  />
+                ))}
+              </div>
+              <Button
+                icon="pi pi-chevron-right"
+                className="p-button-text scroll-button"
+                onClick={() => scrollTimeline('right')}
+              />
             </div>
             <div className="view-buttons">
               <Button
