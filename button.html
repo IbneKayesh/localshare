@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f8faff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .bubbly-button {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            display: inline-block;
+            font-size: 1.5em;
+            padding: 1.5em 3em;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #ff0081;
+            color: #fff;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: transform ease-in 0.1s, box-shadow ease-in 0.25s, background-color 0.5s ease, border-radius 0.5s ease;
+            box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5);
+        }
+        .bubbly-button:focus {
+            outline: 0;
+        }
+        .bubbly-button:before, .bubbly-button:after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 140%;
+            height: 100%;
+            left: -20%;
+            z-index: -1000;
+            transition: all ease-in-out 0.5s;
+            background-repeat: no-repeat;
+        }
+        .bubbly-button:before {
+            display: none;
+            top: -75%;
+            background-image:
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, transparent 20%, #ff0081 20%, transparent 30%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%);
+            background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+        }
+        .bubbly-button:after {
+            display: none;
+            bottom: -75%;
+            background-image:
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, transparent 10%, #ff0081 15%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%),
+                radial-gradient(circle, #ff0081 20%, transparent 20%);
+            background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+        }
+        .bubbly-button:active {
+            transform: scale(0.9);
+            background-color: #e60076;
+            box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+        }
+        .bubbly-button.circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width 0.5s ease, height 0.5s ease, border-radius 0.5s ease;
+        }
+        .bubbly-button.circle i {
+            font-size: 2.5em;
+        }
+        .bubbly-button.dark {
+            background-color: #333;
+            box-shadow: 0 2px 25px rgba(51, 51, 51, 0.5);
+        }
+        .bubbly-button.green {
+            background-color: #28a745;
+            box-shadow: 0 2px 25px rgba(40, 167, 69, 0.5);
+        }
+        .bubbly-button.red {
+            background-color: #dc3545;
+            box-shadow: 0 2px 25px rgba(220, 53, 69, 0.5);
+        }
+        .bubbly-button.success.scanning i {
+            animation: fingerprintScanSuccess 4s ease-in-out;
+        }
+        .bubbly-button.error.scanning i {
+            animation: fingerprintScanError 4s ease-in-out;
+        }
+        @keyframes fingerprintScanSuccess {
+            0% { color: white; }
+            20% { color: #baccde; }
+            40% { color: #5ea1e8; }
+            60% { color: #00ff4c; }
+            80% { color: #3080d5; }
+            100% { color: #007bff; }
+        }
+
+        @keyframes fingerprintScanError {
+            0% { color: white; }
+            20% { color: #baccde; }
+            40% { color: #5ea1e8; }
+            60% { color: #ff3700; }
+            80% { color: #3080d5; }
+            100% { color: #007bff; }
+        }
+
+
+        .bubbly-button.animate:before {
+            display: block;
+            animation: topBubbles ease-in-out 0.75s forwards;
+        }
+        .bubbly-button.animate:after {
+            display: block;
+            animation: bottomBubbles ease-in-out 0.75s forwards;
+        }
+        @keyframes topBubbles {
+            0% {
+                background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+            }
+            50% {
+                background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+            }
+            100% {
+                background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+                background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+            }
+        }
+        @keyframes bottomBubbles {
+            0% {
+                background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+            }
+            50% {
+                background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+            }
+            100% {
+                background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+                background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; gap: 20px; justify-content: center; align-items: center; height: 100vh;">
+        <button class="bubbly-button success" id="successButton">Login (Success)</button>
+        <button class="bubbly-button error" id="errorButton">Login (Error)</button>
+    </div>
+    <script>
+        var animateButton = function(e) {
+            e.preventDefault;
+            //reset animation
+            e.target.classList.remove('animate');
+            e.target.classList.add('animate');
+            setTimeout(function() {
+                e.target.classList.remove('animate');
+            }, 700);
+        };
+        var bubblyButtons = document.getElementsByClassName("bubbly-button");
+        for (var i = 0; i < bubblyButtons.length; i++) {
+            bubblyButtons[i].addEventListener('click', animateButton, false);
+        }
+
+        // Success button functionality
+        var successButton = document.getElementById('successButton');
+        successButton.addEventListener('click', function() {
+            if (successButton.disabled) return; // Prevent clicks during animation
+            successButton.disabled = true; // Disable during animation
+            // Show biometric icon and make circle with dark background
+            successButton.innerHTML = '<i class="fas fa-fingerprint"></i>'; // Font Awesome fingerprint icon
+            successButton.classList.add('circle');
+            successButton.classList.add('dark');
+            successButton.classList.add('scanning');
+            setTimeout(function() {
+                // Show checkbox icon after 4000ms, keep circle, change to green background
+                successButton.innerHTML = '<i class="fas fa-check"></i>'; // Font Awesome check icon
+                successButton.classList.remove('dark');
+                successButton.classList.remove('scanning');
+                successButton.classList.add('green');
+                setTimeout(function() {
+                    // Return to Login text and remove circle and green, back to original pink
+                    successButton.innerHTML = 'Login (Success)';
+                    successButton.classList.remove('circle');
+                    successButton.classList.remove('green');
+                    successButton.disabled = false; // Re-enable after reset
+                }, 1000); // Optional delay before returning to Login
+            }, 4000);
+        });
+
+        // Error button functionality
+        var errorButton = document.getElementById('errorButton');
+        errorButton.addEventListener('click', function() {
+            if (errorButton.disabled) return; // Prevent clicks during animation
+            errorButton.disabled = true; // Disable during animation
+            // Show biometric icon and make circle with dark background
+            errorButton.innerHTML = '<i class="fas fa-fingerprint"></i>'; // Font Awesome fingerprint icon
+            errorButton.classList.add('circle');
+            errorButton.classList.add('dark');
+            errorButton.classList.add('scanning');
+            setTimeout(function() {
+                // Show X icon after 4000ms, keep circle, change to red background
+                errorButton.innerHTML = '<i class="fas fa-times"></i>'; // Font Awesome X icon
+                errorButton.classList.remove('dark');
+                errorButton.classList.remove('scanning');
+                errorButton.classList.add('red');
+                setTimeout(function() {
+                    // Return to Login text and remove circle and red, back to original pink
+                    errorButton.innerHTML = 'Login (Error)';
+                    errorButton.classList.remove('circle');
+                    errorButton.classList.remove('red');
+                    errorButton.disabled = false; // Re-enable after reset
+                }, 1000); // Optional delay before returning to Login
+            }, 4000);
+        });
+    </script>
+</body>
+</html>
