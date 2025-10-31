@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket Online Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h3 {
+      color: #333;
+    }
+    #status {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    #userForm {
+      margin-bottom: 20px;
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: white;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .you {
+      font-weight: bold;
+      color: #007bff;
+    }
+    #notificationForm {
+      margin-top: 20px;
+      border-top: 1px solid #ccc;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Socket.IO Online Users</h3>
+
+  <div id="status">Connecting...</div>
+
+  <form id="userForm">
+    <label for="userIdInput" aria-label="Enter your user ID">User ID:</label>
+    <input type="text" id="userIdInput" required placeholder="Enter your user ID">
+    <button type="submit">Register</button>
+  </form>
+
+  <h4>Online Users:</h4>
+  <ul id="userList" aria-label="List of online users"></ul>
+
+  <form id="notificationForm" style="display: none;">
+    <h4>Send Notification:</h4>
+    <label for="toUserSelect" aria-label="Select user to send notification to">To:</label>
+    <select id="toUserSelect" required>
+      <option value="">Select a user</option>
+    </select>
+    <label for="messageInput" aria-label="Enter message">Message:</label>
+    <input type="text" id="messageInput" required placeholder="Enter message">
+    <button type="submit">Send</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const statusDiv = document.getElementById("status");
+    const userForm = document.getElementById("userForm");
+    const userIdInput = document.getElementById("userIdInput");
+    const userList = document.getElementById("userList");
+    const notificationForm = document.getElementById("notificationForm");
+    const toUserSelect = document.getElementById("toUserSelect");
+    const messageInput = document.getElementById("messageInput");
+
+    let userId = localStorage.getItem("userId");
+    if (userId) {
+      userIdInput.value = userId;
+      socket.emit("register", userId);
+      statusDiv.textContent = "Connected";
+      notificationForm.style.display = "block";
+    }
+
+    socket.on("connect", () => {
+      statusDiv.textContent = "Connected";
+    });
+
+    socket.on("disconnect", () => {
+      statusDiv.textContent = "Disconnected";
+      notificationForm.style.display = "none";
+    });
+
+    userForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      userId = userIdInput.value.trim();
+      if (userId) {
+        localStorage.setItem("userId", userId);
+        socket.emit("register", userId);
+        statusDiv.textContent = "Connected";
+        notificationForm.style.display = "block";
+      }
+    });
+
+    // Update online user list
+    socket.on("onlineUsers", (users) => {
+      userList.innerHTML = "";
+      toUserSelect.innerHTML = '<option value="">Select a user</option>';
+      users.forEach((u) => {
+        const li = document.createElement("li");
+        li.textContent = u;
+        if (u === userId) {
+          li.classList.add("you");
+          li.textContent += " (You)";
+        } else {
+          const option = document.createElement("option");
+          option.value = u;
+          option.textContent = u;
+          toUserSelect.appendChild(option);
+        }
+        userList.appendChild(li);
+      });
+    });
+
+    // Receive notifications
+    socket.on("notification", (data) => {
+      alert(`🔔 From ${data.from}: ${data.message}`);
+    });
+
+    notificationForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const toUserId = toUserSelect.value;
+      const message = messageInput.value.trim();
+      if (toUserId && message) {
+        socket.emit("sendNotification", { toUserId, message });
+        messageInput.value = "";
+      }
+    });
+  </script>
+</body>
+</html>

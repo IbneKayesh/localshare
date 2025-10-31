@@ -3,41 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Realtime Chat App</title>
+  <title>Local Share</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h2>Realtime Chat</h2>
-    <div id="login">
-      <input id="username" placeholder="Enter your name" maxlength="20">
-      <button id="joinBtn">Join</button>
+  <!-- Login Section -->
+  <div id="loginSection" class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-primary d-block">
+    <div class="card p-4 shadow">
+      <h2 class="card-title text-center mb-4">Login to Local Share</h2>
+      <form id="loginForm">
+        <input type="text" id="usernameInput" class="form-control mb-3" placeholder="Enter your username" maxlength="20" required>
+        <button type="submit" class="btn btn-success w-100">Login</button>
+      </form>
     </div>
+  </div>
 
-    <div id="chat" style="display:none;">
-      <div class="sidebar">
-        <div id="currentUser">Logged in as: <span id="userDisplay"></span></div>
-        <h3>Online Users (<span id="userCount">0</span>)</h3>
-        <ul id="users"></ul>
-      </div>
-      <div class="main">
-        <div id="chatHeader">Public Chat</div>
-        <div id="messages"></div>
-        <div id="typing"></div>
-        <div class="input-area">
-          <input id="message" placeholder="Type a message..." maxlength="500">
-          <button id="send">Send</button>
+  <!-- Main App -->
+  <div id="app" class="d-none">
+    <!-- Title Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">Local Share</a>
+
+        <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+          <div class="input-group w-50">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search messages...">
+            <button id="searchBtn" class="btn btn-outline-light"><i class="bi bi-search"></i></button>
+          </div>
         </div>
-        <form id="uploadForm">
-          <input type="file" id="fileInput">
-          <button type="submit">Send File</button>
-        </form>
-        <button id="publicBtn">Switch to Public</button>
-        <button id="clearHistory">Clear History</button>
+
+        <div class="d-flex align-items-center">
+          <div class="btn-group me-3" role="group">
+            <button id="modePublic" class="btn btn-outline-light active" data-mode="public"><i class="bi bi-megaphone"></i> Public</button>
+            <button id="modePrivate" class="btn btn-outline-light" data-mode="private"><i class="bi bi-chat-dots"></i> Private</button>
+            <button id="modeNotify" class="btn btn-outline-light" data-mode="notify"><i class="bi bi-bell"></i> Notify</button>
+          </div>
+          <span id="currentUser" class="text-white me-3"></span>
+          <button id="logoutBtn" class="btn btn-outline-light"><i class="bi bi-box-arrow-right"></i> Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+      <div class="row vh-100">
+        <!-- Left Sidebar - Chat List -->
+        <div class="col-md-4 col-lg-3 p-0">
+          <div class="bg-light border-end h-100 d-flex flex-column">
+            <div class="p-3 border-bottom bg-white">
+              <h5 class="mb-0"><i class="bi bi-chat-left-text me-2"></i>Chats</h5>
+            </div>
+            <div class="flex-grow-1 overflow-auto">
+              <ul id="chatList" class="list-group list-group-flush"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="col-md-8 col-lg-9 p-0 d-flex flex-column">
+          <div id="chatHeader" class="bg-white p-3 border-bottom fw-bold">Select a chat or mode</div>
+          <div id="chatMessages" class="flex-grow-1 p-3 overflow-auto" style="background-image: url('data:image/svg+xml,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3e%3ctext fill=%22%23f0f0f0%22 font-size=%2220%22 y=%2250%25%22%3e💬%3c/text%3e%3c/svg%3e'); background-repeat: repeat; background-size: 50px;"></div>
+          <div id="typingIndicator" class="px-3 py-1 text-muted small"></div>
+          <div class="p-3 bg-light border-top">
+            <div class="chat-input d-none" id="chatInputSection">
+              <div class="input-group">
+                <input type="text" id="chatMessage" class="form-control" placeholder="Type a message..." maxlength="500">
+                <button id="sendMessageBtn" class="btn btn-success"><i class="bi bi-send"></i></button>
+              </div>
+            </div>
+            <form id="uploadForm" class="d-none">
+              <div class="input-group">
+                <input type="file" id="fileInput" class="form-control">
+                <button type="submit" class="btn btn-secondary"><i class="bi bi-paperclip"></i> Send File</button>
+              </div>
+            </form>
+            <div class="mt-2">
+              <button id="clearHistoryBtn" class="btn btn-outline-danger btn-sm me-2"><i class="bi bi-trash"></i> Clear History</button>
+              <button id="filterBtn" class="btn btn-outline-primary btn-sm"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="client.js"></script>
 </body>
